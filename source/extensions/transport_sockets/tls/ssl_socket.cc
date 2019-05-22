@@ -39,6 +39,7 @@ public:
   }
   void onConnected() override {}
   const Ssl::ConnectionInfo* ssl() const override { return nullptr; }
+  const Alts::ConnectionInfo* alts() const override { return nullptr; }
 };
 } // namespace
 

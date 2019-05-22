@@ -72,6 +72,7 @@ public:
   Network::IoResult doWrite(Buffer::Instance& write_buffer, bool end_stream) override;
   void onConnected() override;
   const Ssl::ConnectionInfo* ssl() const override { return this; }
+  const Alts::ConnectionInfo* alts() const override { return nullptr; }
 
   SSL* rawSslForTest() const { return ssl_.get(); }
 

@@ -145,6 +145,11 @@ public:
    * @return the const SSL connection data if this is an SSL connection, or nullptr if it is not.
    */
   virtual const Ssl::ConnectionInfo* ssl() const PURE;
+
+  /**
+   * @return the const ALTS connection data if this is an ALTS connection, or nullptr if it is not.
+   */
+  virtual const Alts::ConnectionInfo* alts() const PURE;
 };
 
 typedef std::unique_ptr<TransportSocket> TransportSocketPtr;

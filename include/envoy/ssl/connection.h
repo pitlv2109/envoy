@@ -103,4 +103,20 @@ public:
 };
 
 } // namespace Ssl
+
+// TODO(pitlv2109): Move ALTS ConnectionInfo to ALTS's folder.  
+namespace Alts
+{
+/**
+ * Base connection interface for all SSL connections.
+ */  
+class ConnectionInfo {
+public:
+  virtual ~ConnectionInfo() {}
+  /**
+   * @return std::vector<std::string> the peer service accounts.
+   **/
+  virtual std::vector<std::string> peerServiceAccounts() const PURE; 
+};
+} // namespace Alts 
 } // namespace Envoy

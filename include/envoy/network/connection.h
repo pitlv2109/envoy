@@ -217,6 +217,11 @@ public:
   // TODO(snowp): Remove this in favor of StreamInfo::downstreamSslConnection.
   virtual const Ssl::ConnectionInfo* ssl() const PURE;
 
+   /**
+   * @return the const ALTS connection data if this is an ALTS connection, or nullptr if it is not.
+   */ 
+  virtual const Alts::ConnectionInfo* alts() const PURE;
+
   /**
    * @return requested server name (e.g. SNI in TLS), if any.
    */

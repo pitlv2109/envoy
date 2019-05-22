@@ -82,6 +82,7 @@ public:
   absl::optional<UnixDomainSocketPeerCredentials> unixSocketPeerCredentials() const override;
   void setConnectionStats(const ConnectionStats& stats) override;
   const Ssl::ConnectionInfo* ssl() const override { return transport_socket_->ssl(); }
+  const Alts::ConnectionInfo* alts() const override { return transport_socket_->alts(); }
   State state() const override;
   void write(Buffer::Instance& data, bool end_stream) override;
   void setBufferLimits(uint32_t limit) override;

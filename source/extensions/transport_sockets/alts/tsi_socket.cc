@@ -98,6 +98,10 @@ Network::PostIoAction TsiSocket::doHandshakeNextDone(NextResultPtr&& next_result
     ENVOY_CONN_LOG(debug, "TSI: Handshake successful: peer properties: {}",
                    callbacks_->connection(), peer.property_count);
     for (size_t i = 0; i < peer.property_count; ++i) {
+      const std::string name = std::string(peer.properties[i].name);
+      if (name.compare(TSI_ALTS_SERVICE_ACCOUNT_PEER_PROPERTY) == 0) {
+        peer_service_accounts_.push_back(peer.properties[i].value.data);
+      }
       ENVOY_CONN_LOG(debug, "  {}: {}", callbacks_->connection(), peer.properties[i].name,
                      std::string(peer.properties[i].value.data, peer.properties[i].value.length));
     }
@@ -257,6 +261,10 @@ bool TsiSocketFactory::implementsSecureTransport() const { return true; }
 Network::TransportSocketPtr
 TsiSocketFactory::createTransportSocket(Network::TransportSocketOptionsSharedPtr) const {
   return std::make_unique<TsiSocket>(handshaker_factory_, handshake_validator_);
+}
+
+std::vector<std::string> TsiSocket::peerServiceAccounts() const {
+  return peer_service_accounts_;
 }
 
 } // namespace Alts

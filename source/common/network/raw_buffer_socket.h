@@ -21,6 +21,7 @@ public:
   IoResult doRead(Buffer::Instance& buffer) override;
   IoResult doWrite(Buffer::Instance& buffer, bool end_stream) override;
   const Ssl::ConnectionInfo* ssl() const override { return nullptr; }
+  const Alts::ConnectionInfo* alts() const override { return nullptr; }
 
 private:
   TransportSocketCallbacks* callbacks_{};

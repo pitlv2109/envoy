@@ -38,6 +38,7 @@ typedef std::function<bool(const tsi_peer& peer, std::string& err)> HandshakeVal
  * A implementation of Network::TransportSocket based on gRPC TSI
  */
 class TsiSocket : public Network::TransportSocket,
+                  public Envoy::Alts::ConnectionInfo,
                   public TsiHandshakerCallbacks,
                   public Logger::Loggable<Logger::Id::connection> {
 public:
@@ -60,10 +61,14 @@ public:
   absl::string_view failureReason() const override;
   bool canFlushClose() override { return handshake_complete_; }
   const Envoy::Ssl::ConnectionInfo* ssl() const override { return nullptr; }
+  const Envoy::Alts::ConnectionInfo* alts() const override { return this; }
   Network::IoResult doWrite(Buffer::Instance& buffer, bool end_stream) override;
   void closeSocket(Network::ConnectionEvent event) override;
   Network::IoResult doRead(Buffer::Instance& buffer) override;
   void onConnected() override;
+
+  // Envoy::Alts::ConnectionInfo
+  std::vector<std::string> peerServiceAccounts() const override;
 
   // TsiHandshakerCallbacks
   void onNextDone(NextResultPtr&& result) override;
@@ -89,6 +94,7 @@ private:
   bool handshake_complete_{};
   bool end_stream_read_{};
   bool read_error_{};
+  std::vector<std::string> peer_service_accounts_;
 };
 
 /**
